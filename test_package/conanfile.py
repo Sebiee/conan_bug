@@ -9,6 +9,7 @@ class conan_bug_test_package(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        cmake.verbose = True
         cmake.configure()
         cmake.build()
 

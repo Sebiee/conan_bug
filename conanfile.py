@@ -7,14 +7,15 @@ class conan_bug_recipe(ConanFile):
 
     settings = "os", "compiler", "build_type", "arch"
 
+    exports = "version.txt"
+
     generators = "cmake"
 
-    def configure(self):
-        if self.settings.compiler != "Visual Studio":
-            self.settings.compiler.libcxx="libstdc++11"
-
-    def source(self):
-        pass
+    scm = {
+        "type": "git",
+        "url": "git@github.com:Sebiee/conan_bug.git",
+        "revision": "auto"
+    }
 
     def build(self):
         cmake = CMake(self)
@@ -26,7 +27,4 @@ class conan_bug_recipe(ConanFile):
         self.copy("**.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = [
-             os.path.join(self.package_folder,"lib","libstring_wrapper.a")
-        ]
-        del self.cpp_info.lib_paths[:]
+        self.cpp_info.libs = ["libstring_wrapper.a"]
